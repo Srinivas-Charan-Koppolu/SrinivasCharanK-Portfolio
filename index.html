@@ -459,7 +459,7 @@
 
         .btn-primary {
             background-color: var(--primary);
-            color: white;
+            color: black;
             box-shadow: 0 10px 20px rgba(0, 188, 212, 0.4);
         }
 
@@ -806,8 +806,10 @@
         /* === Projects Section === */
         #projects {
             /* background-color: var(--darkest); */
+            /* background-color: red; */
             position: relative;
             overflow: hidden;
+            width: 100%; 
         }
 
         #projects::before {
@@ -822,6 +824,7 @@
         }
 
         #projects .container {
+            position: relative;
             position: relative;
             z-index: 1;
         }
@@ -846,29 +849,94 @@
             margin: 0 auto;
         }
 
-        /* Project Cards Container - Grid Layout */
-        #projects .project-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
-            margin-top: 30px;
-        }
 
-        /* Project Card */
-        #projects .project-card {
-            display: flex;
-            flex-direction: column;
-            background: rgba(0, 0, 0, 0.7);
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            padding: 20px;
-            position: relative;
-            backdrop-filter: blur(10px);
-            transition: var(--transition);
-            opacity: 0;
-            transform: translateY(30px);
-        }
+.scroll-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.6);
+  border: none;
+  color: white;
+  font-size: 2rem;
+  padding: 0 10px;
+  cursor: pointer;
+  border-radius: 50%;
+  z-index: 10;
+  user-select: none;
+  transition: background 0.3s ease;
+}
+
+.scroll-btn:hover {
+  background: rgba(255,255,255,0.3);
+}
+
+#scrollLeft {
+  left: 10px;
+}
+
+#scrollRight {
+  right: 10px;
+}
+
+
+/* Container: Flex row, no wrap, horizontal scroll */
+#projects .project-cards {
+    /* background-color: red; */
+    display: flex;
+    flex-wrap: nowrap;           /* Prevent wrapping to new line */
+    gap: 30px;
+    margin-top: 30px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    /* Hide scrollbar */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    overflow-y: hidden;
+}
+#projects .project-cards::-webkit-scrollbar {
+    display: none;
+}
+
+/* Cards: fixed width, flex items */
+#projects .project-card {
+    flex: 0 0 500px;            /* fixed width, no grow, no shrink */
+    display: flex;
+    flex-direction: column;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    position: relative;
+    backdrop-filter: blur(10px);
+    transition: opacity 0.3s ease, transform 0.5s ease;
+    opacity: 0;
+    transform: translateY(20px);
+    margin: 20px;
+    transform: scale(0.8);
+}
+
+/* Fade-in on visible */
+#projects .project-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#projects .project-cards .scroll-padding {
+  flex: 0 0 30%; /* half container width */
+  pointer-events: none; /* avoid interaction */
+  user-select: none;
+  visibility: hidden;
+}
+
+#projects .project-card.centered {
+  transform: scale(2); /* increase size */
+  z-index: 10; /* bring to front */
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5); /* slightly stronger shadow */
+}
+
+
 
         #projects .project-card:nth-child(1) {
             animation: fadeInUp 1s ease forwards 0.2s;
@@ -885,6 +953,7 @@
         #projects .project-card:hover {
             transform: translateY(-10px) scale(1.02);
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            transition: all 1s ease-in-out;
         }
 
         /* Project Image */
@@ -897,7 +966,7 @@
 
         #projects .project-img img {
             width: 100%;
-            height: 200px;
+            /* height: 200px; */
             object-fit: cover;
             transition: var(--transition);
         }
@@ -908,7 +977,7 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
+            height: 80%;
             background: linear-gradient(to bottom, rgba(0, 188, 212, 0.2), rgba(0, 0, 0, 0.7));
             opacity: 0;
             transition: var(--transition);
@@ -916,11 +985,11 @@
         }
 
         #projects .project-card:hover .project-img::before {
-            opacity: 1;
+            opacity: 0;
         }
 
         #projects .project-card:hover .project-img img {
-            transform: scale(1.05);
+            transform: scale(1.15);
         }
 
         #projects .project-info {
@@ -968,11 +1037,12 @@
             font-size: 0.9rem;
             font-weight: 500;
             transition: var(--transition);
+            color: black;
         }
 
         #projects .project-links a:first-child {
             background-color: var(--primary);
-            color: white;
+            /* color: white; */
         }
 
         #projects .project-links a:last-child {
@@ -1398,79 +1468,200 @@
         </div>
     </section>
 
-    <!-- Projects Section -->
-    <section id="projects" class="projects-section">
-        <div class="container">
-            <div class="section-title">
-                <h2>My <span class="highlight">Projects</span></h2>
-                <p>Some of my recent work and contributions</p>
-            </div>
-            <div class="project-cards">
-                <!-- Project 1 -->
-                <div class="project-card">
-                    <div class="project-img">
-                        <img src="project1.jpg" alt="AI-Powered Chat Application">
-                    </div>
-                    <div class="project-info">
-                        <h3>AI-Powered Chat Application</h3>
-                        <p>A real-time chat application with AI-powered responses using natural language processing and sentiment analysis.</p>
-                        <div class="project-tech">
-                            <span class="tech-item">Python</span>
-                            <span class="tech-item">Flask</span>
-                            <span class="tech-item">NLP</span>
-                            <span class="tech-item">Socket.IO</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="#"><i class="fab fa-github"></i> View Code</a>
-                            <a href="#"><i class="fas fa-external-link-alt"></i> Live Demo</a>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Project 2 -->
-                <div class="project-card">
-                    <div class="project-img">
-                        <img src="project2.jpg" alt="E-commerce Analytics Dashboard">
-                    </div>
-                    <div class="project-info">
-                        <h3>E-commerce Analytics Dashboard</h3>
-                        <p>Interactive dashboard for analyzing e-commerce data with predictive sales forecasting and customer segmentation.</p>
-                        <div class="project-tech">
-                            <span class="tech-item">React</span>
-                            <span class="tech-item">Node.js</span>
-                            <span class="tech-item">MongoDB</span>
-                            <span class="tech-item">Chart.js</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="#"><i class="fab fa-github"></i> View Code</a>
-                            <a href="#"><i class="fas fa-external-link-alt"></i> Live Demo</a>
-                        </div>
-                    </div>
-                </div>
+<!-- Projects Section -->
+<section id="projects" class="projects-section">
+  <div class="container">
+    <div class="section-title">
+      <h2>My <span class="highlight">Projects</span></h2>
+      <p>Some of my recent work and contributions</p>
+    </div>
+    <div class="project-cards">
+      <button id="scrollLeft" class="scroll-btn">&#x276E;</button>
+      <!-- ‹ Left -->
+      <div class="scroll-padding project-card"></div>
+      <!-- left padding -->
 
-                <!-- Project 3 -->
-                <div class="project-card">
-                    <div class="project-img">
-                        <img src="project3.jpg" alt="Computer Vision for Medical Imaging">
-                    </div>
-                    <div class="project-info">
-                        <h3>Computer Vision for Medical Imaging</h3>
-                        <p>Deep learning model for detecting anomalies in medical X-ray images with 94% accuracy.</p>
-                        <div class="project-tech">
-                            <span class="tech-item">Python</span>
-                            <span class="tech-item">TensorFlow</span>
-                            <span class="tech-item">OpenCV</span>
-                            <span class="tech-item">CNN</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="#"><i class="fab fa-github"></i> View Code</a>
-                            <a href="#"><i class="fas fa-external-link-alt"></i> Live Demo</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <div class="project-card">
+        <div class="project-img">
+          <img src="GameZ.jpg" alt="GameZ - Multiplayer Gaming Platform" />
         </div>
-    </section>
+        <div class="project-info">
+          <h3>GameZ - Online Multiplayer Gaming Platform</h3>
+          <p>
+            An online multiplayer gaming platform where users can track and
+            spend game coins acquired through physical transactions. Admins
+            manage users, game coins, and transactions. The platform includes
+            multiplayer and single-player game integration, and the messaging
+            system utilizes pywhatkit for WhatsApp notifications. Future plans
+            include integrating a payment gateway and implementing real-time
+            multiplayer features using WebSockets.
+          </p>
+          <div class="project-tech">
+            <span class="tech-item">Python (Flask)</span>
+            <span class="tech-item">SQLite</span>
+            <span class="tech-item">JavaScript</span>
+            <span class="tech-item">HTML</span>
+            <span class="tech-item">CSS</span>
+            <span class="tech-item">Jinja</span>
+          </div>
+          <div class="project-links">
+            <a href="#"><i class="fab fa-github"></i> View Code</a>
+            <a href="#"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-img">
+          <img
+            src="play-your-mood.jpg"
+            alt="Play Your Mood - Music Streaming App"
+          />
+        </div>
+        <div class="project-info">
+          <h3>Play Your Mood - Personalized Music Streaming Web App</h3>
+          <p>
+            A personalized music streaming web app that recommends songs based
+            on user mood. Features include playlist creation, responsive
+            dark-themed UI, smooth animations, and glassmorphism-styled cards.
+            Built with React for frontend and Spring for backend integration.
+          </p>
+          <div class="project-tech">
+            <span class="tech-item">HTML</span>
+            <span class="tech-item">CSS</span>
+            <span class="tech-item">JavaScript</span>
+            <span class="tech-item">Java</span>
+            <span class="tech-item">Spring</span>
+            <span class="tech-item">React</span>
+            <span class="tech-item">Postman</span>
+          </div>
+          <div class="project-links">
+            <a href="#"><i class="fab fa-github"></i> View Code</a>
+            <a href="#"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-img">
+          <img
+            src="erp-classroom-finder.png"
+            alt="ERP - Classroom Finder Project"
+          />
+        </div>
+        <div class="project-info">
+          <h3>ERP - Classroom Finder</h3>
+          <p>
+            A Free Time Slot Calculator for classrooms that subtracts scheduled
+            classes from total available slots to find free rooms efficiently.
+            Handles large datasets with smooth performance and helps optimize
+            campus resource allocation.
+          </p>
+          <div class="project-tech">
+            <span class="tech-item">Python</span>
+            <span class="tech-item">Flask</span>
+            <span class="tech-item">SQLite</span>
+            <span class="tech-item">HTML</span>
+            <span class="tech-item">CSS</span>
+            <span class="tech-item">JavaScript</span>
+          </div>
+          <div class="project-links">
+            <a href="#"><i class="fab fa-github"></i> View Code</a>
+            <a href="#"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-img">
+          <img src="vibe-stream.png" alt="VibeStream - Social Media Platform" />
+        </div>
+        <div class="project-info">
+          <h3>VibeStream - Social Media Platform</h3>
+          <p>
+            A social media platform allowing users to upload, share, and
+            discover media content. Key features include user authentication,
+            profile management, privacy controls, and a follow/unfollow system.
+            Optimized backend increased user engagement by 45% and reduced page
+            load time by 30%.
+          </p>
+          <div class="project-tech">
+            <span class="tech-item">Python</span>
+            <span class="tech-item">Flask</span>
+            <span class="tech-item">SQLite3</span>
+            <span class="tech-item">HTML</span>
+            <span class="tech-item">CSS</span>
+            <span class="tech-item">JavaScript</span>
+          </div>
+          <div class="project-links">
+            <a href="#"><i class="fab fa-github"></i> View Code</a>
+            <a href="#"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-img">
+          <img src="audio-feel.jpg" alt="Audio Feel - Web-based Music Player" />
+        </div>
+        <div class="project-info">
+          <h3>Audio Feel - Web-based Music Player</h3>
+          <p>
+            A web-based music player with the ability to play locally stored
+            songs and create personalized playlists. The project improved user
+            retention by 40% through optimized game mechanics and interface
+            improvements.
+          </p>
+          <div class="project-tech">
+            <span class="tech-item">HTML</span>
+            <span class="tech-item">CSS</span>
+            <span class="tech-item">JavaScript</span>
+            <span class="tech-item">Bootstrap</span>
+          </div>
+          <div class="project-links">
+            <a href="#"><i class="fab fa-github"></i> View Code</a>
+            <a href="#"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-img">
+          <img
+            src="flap-the-box.jpg"
+            alt="Flap The Box - 2D HTML5 Canvas Game"
+          />
+        </div>
+        <div class="project-info">
+          <h3>Flap The Box - 2D HTML5 Canvas Game</h3>
+          <p>
+            A 2D game built with HTML5 Canvas, featuring smooth gameplay
+            mechanics and complex logic handling. Optimized event handling
+            increased game response time by 20%, while a refined difficulty
+            progression improved user retention by 40%.
+          </p>
+          <div class="project-tech">
+            <span class="tech-item">HTML</span>
+            <span class="tech-item">CSS</span>
+            <span class="tech-item">JavaScript</span>
+            <span class="tech-item">Canvas</span>
+          </div>
+          <div class="project-links">
+            <a href="#"><i class="fab fa-github"></i> View Code</a>
+            <a href="#"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="scroll-padding"></div>
+      <!-- right padding -->
+      <button id="scrollRight" class="scroll-btn">&#x276F;</button>
+      <!-- › Right -->
+    </div>
+  </div>
+</section>
+
 
     <!-- Contact Section -->
     <section id="contact" class="contact-section">
@@ -1729,7 +1920,106 @@
             navLinks.classList.toggle('active');
             hamburger.classList.toggle('active');
         });
-    </script>
+
+
+
+
+
+        // Project cards
+
+
+        const container = document.querySelector('#projects .project-cards');
+const cards = container.querySelectorAll('.project-card');
+const scrollAmount = 300; // pixels per button click
+
+
+function updateCardsOpacity() {
+  const containerWidth = container.clientWidth;
+  const scrollLeft = container.scrollLeft;
+  const containerCenter = scrollLeft + containerWidth / 2;
+
+  const fadeArea = containerWidth * 0.06; // 10% fade width
+
+  let closestCard = null;
+  let minDistance = Infinity;
+
+  cards.forEach(card => {
+    if (card.classList.contains('scroll-padding')) {
+      card.style.opacity = 0;
+      card.classList.remove('centered');
+      return;
+    }
+
+    const cardLeft = card.offsetLeft;
+    const cardRight = cardLeft + card.offsetWidth;
+    const cardCenter = cardLeft + card.offsetWidth / 2;
+
+    // Calculate fade opacity
+    let opacity = 1;
+
+    if (cardLeft < scrollLeft + fadeArea) {
+      const fadeRatio = (cardLeft - scrollLeft) / fadeArea;
+      opacity = Math.min(opacity, Math.max(fadeRatio, 0));
+    }
+
+    if (cardRight > scrollLeft + containerWidth - fadeArea) {
+      const fadeRatio = (scrollLeft + containerWidth - cardRight) / fadeArea;
+      opacity = Math.min(opacity, Math.max(fadeRatio, 0));
+    }
+
+    const minOpacity = 0.2;
+    opacity = Math.max(opacity, minOpacity);
+
+    card.style.opacity = opacity;
+
+    if (opacity > 0.5) {
+      card.classList.add('visible');
+    } else {
+      card.classList.remove('visible');
+    }
+
+    // Find closest card to container center
+    const distance = Math.abs(containerCenter - cardCenter);
+    if (distance < minDistance) {
+      minDistance = distance;
+      closestCard = card;
+    }
+  });
+
+  // Remove 'centered' class from all cards
+  cards.forEach(card => card.classList.remove('centered'));
+
+  // Add 'centered' class to closest card
+  if (closestCard) {
+    closestCard.classList.add('centered');
+  }
+}
+
+
+
+
+
+
+container.addEventListener('scroll', updateCardsOpacity);
+window.addEventListener('load', updateCardsOpacity);
+window.addEventListener('resize', updateCardsOpacity);
+
+
+// Scroll left button
+document.getElementById('scrollLeft').addEventListener('click', () => {
+  container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+});
+
+// Scroll right button
+document.getElementById('scrollRight').addEventListener('click', () => {
+  container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+});
+
+
+
+
+
+</script>
 
 
 
