@@ -570,7 +570,7 @@
     height: 4px;
     width: 80%;
     background: rgba(0, 255, 166, 0.606);
-    transition: transform 0.3s ease, opacity 0.5s ease, background 0.5s ease;
+    transition: transform 1s ease, opacity 1s ease, background 1s ease;
     box-shadow: 0 0 12px rgba(0, 255, 255, 0.469);
     opacity: 1;
 }
@@ -595,7 +595,7 @@
 }
 
 .hero-photo:hover .hero-photo-inner::after {
-    transform: translateX(-50%) scaleX(0);
+    transform: translateX(-50%) scaleX(0) translateY(+50px) rotateZ(-1deg);
     opacity: 0;
 }
 
@@ -991,6 +991,108 @@
             max-width: 700px;
             margin: 0 auto;
         }
+
+
+
+
+
+body.viewer-open {
+    overflow: hidden;
+    scroll-behavior: none;
+}
+
+.project-viewer {
+    position: fixed;
+    top: 10vh;
+    left: 0;
+    /* border: 2px solid red; */
+    width: 100vw;
+    height: 90vh;
+    background: #000000;
+    color: #fff;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 40px 40px;
+    overflow-y: auto;
+    transition: opacity 0.3s ease;
+}
+
+.project-viewer.hidden {
+    display: none;
+}
+
+.viewer-content {
+    width: 100%;
+    background: #222;
+    border-radius: 16px;
+    position: relative;
+    display: flex;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.project-viewer .container {
+    max-width: 100vw;
+    height: 50vh;
+    overflow-y: auto;
+    box-sizing: border-box;
+    justify-content: center;
+    align-items: center;
+    transform-origin: center;
+    background: #1c1c1c;
+    border-radius: 20px;
+    color: white;
+    display: flex;
+    flex: 10% auto;
+}
+
+
+.project-viewer .container img {
+    width: 80%;
+    height: auto;
+    max-height: 400px;
+    object-fit: contain;
+    border-radius: 20px;
+    margin-right: 10px;
+}
+
+.project-viewer .container .text-content {
+    flex: 1;
+    min-width: 300px;
+}
+
+.close-viewer {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: transparent;
+    color: white;
+    border: none;
+    font-size: 2rem;
+    cursor: none;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+
+
+
+
+
+
+
+
 
 
 .scroll-btn {
@@ -1648,6 +1750,16 @@
 <!-- Projects Section -->
 <section id="projects" class="projects-section">
   <div class="container">
+
+    <!-- Fullscreen Project Viewer -->
+<div id="project-viewer" class="project-viewer hidden">
+    <div class="viewer-content">
+        <button class="close-viewer">&times;</button>
+        <div id="viewer-inner"></div>
+    </div>
+</div>
+
+
     <div class="section-title">
       <h2>My <span class="highlight">Projects</span></h2>
       <p>Some of my recent work and contributions</p>
@@ -1941,7 +2053,7 @@
 
     <script>
         // My Images
-        const myImages = ["Srinu_2.png"]
+        const myImages = ["Srinu_2.png", "Srinu_3.png"]
         var imageIndex = parseInt(Math.random() * 100) % myImages.length;
         const myImagesContainer = document.getElementById("My-Images");
 
@@ -2214,7 +2326,54 @@ document.getElementById('scrollRight').addEventListener('click', () => {
 
 
 
+
+
+    const viewer = document.getElementById('project-viewer');
+    const viewerInner = document.getElementById('viewer-inner');
+    const closeBtn = document.querySelector('.close-viewer');
+
+    cards.forEach(card => {
+        card.addEventListener('click', () => {
+            const title = card.querySelector('h3').innerText;
+            const description = card.querySelector('p')?.innerText || "No description provided.";
+            const image = card.querySelector('img')?.src;
+            const techItems = card.querySelectorAll('.tech-item');
+            const technologies = Array.from(techItems).map(item => item.innerText).join(', ');
+            const links = card.querySelectorAll('.project-links a');
+
+            viewerInner.innerHTML = `
+                <div class='container'>
+                    <div class="image-container">
+                        <img src="${image}" alt="${title}">
+                        <h3>Technologies Used:
+                            <pre style="display: inline-block">${technologies}</pre>
+                        </h3>
+                    </div>
+                <div class="text-content">
+                    <h2>${title}</h2>
+                    <p>
+                        <small>
+                            ${description}
+                        </small>
+                    </p>
+                </div>
+                </div>
+            `;
+
+            document.body.classList.add('viewer-open');
+            viewer.classList.remove('hidden');
+        });
+        card.setAttribute('title', 'Click to view in fullscreen');
+    });
+
+
+    closeBtn.addEventListener('click', () => {
+        viewer.classList.add('hidden');
+        document.body.classList.remove('viewer-open');
+        viewerInner.innerHTML = '';
+    });
 </script>
+
 
 
 
