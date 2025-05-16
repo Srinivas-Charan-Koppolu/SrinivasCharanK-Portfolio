@@ -12,7 +12,7 @@
         :root {
             --primary: #00bcd4;
             --primary-light: rgba(0, 188, 212, 0.1);
-            --secondary: #7c4dff;
+            --secondary: #8aa4fc;
             --accent: #ff9800;
             --dark: #0a0a0f;
             --darker: #05050a;
@@ -166,6 +166,16 @@
             overflow: hidden;
         }
 
+        .noVisibility {
+            visibility: hidden;
+        }
+
+        .highlight {
+            color: var(--primary);
+            position: relative;
+            display: inline-block;
+        }
+
         /* === Navigation Bar === */
         nav {
             position: fixed;
@@ -285,7 +295,6 @@
             align-items: center;
             position: relative;
             overflow: hidden;
-            /* background: linear-gradient(135deg, var(--darkest), var(--dark)); */
             z-index: 1;
         }
 
@@ -413,6 +422,36 @@
             }
         }
 
+        @keyframes shine {
+            0%, 100% {
+                transform: translateY(0px) translateX(0px);
+                scale: 1;
+            }
+            50% {
+                scale: 1.5;
+                filter: brightness(1.5);
+                transform: translateY(-10px) translateX(+10px);
+            }
+        }
+
+        @keyframes rotateAlternate{
+            0% {
+                transform: rotate(0deg) translateY(0px);
+            }
+            25% {
+                transform: rotate(-10deg);
+            }
+            50% {
+                transform: rotate(0deg) translateY(-2px);
+            }
+            75% {
+                transform: rotate(10deg);
+            }
+            100% {
+                transform: rotate(0deg) translateY(-5px);
+            }
+        }
+
 
         /* === Call to Action Buttons === */
         .cta-buttons {
@@ -480,73 +519,155 @@
             transform: translateY(-4px);
         }
 
-        /* === Hero Image === */
-        .hero-photo {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 1s ease forwards 0.2s;
-        }
 
-        .hero-photo-inner {
-            position: relative;
-            width: 360px;
-            height: 360px;
-            border-radius: 25px;
-            overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0, 188, 212, 0.4);
-            transform: perspective(1000px) rotateY(-10deg);
-            transition: var(--transition);
-        }
 
-        .hero-photo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: var(--transition);
-        }
 
-        .hero-photo-inner::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: 4px solid var(--primary);
-            border-radius: 25px;
-            z-index: 1;
-            pointer-events: none;
-        }
 
-        .hero-photo-inner::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(0, 188, 212, 0.1), transparent);
-            z-index: 1;
-            pointer-events: none;
-        }
 
-        .hero-photo:hover .hero-photo-inner {
-            transform: perspective(1000px) rotateY(0deg) scale(1.02);
-            box-shadow: 0 25px 70px rgba(0, 188, 212, 0.6);
-        }
 
-        .hero-photo:hover img {
-            transform: scale(1.05);
-        }
+
+
+
+
+
+
+
+
+
+
+
+        /* === Hero Image Section (3D, Drop Shadow, Bottom Border Animation) === */
+.hero-photo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1200px;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 1s ease forwards 0.2s;
+}
+
+.hero-photo-inner {
+    width: 360px;
+    height: 360px;
+    transform: rotateY(-15deg) rotateX(8deg);
+    transform-style: preserve-3d;
+    transition: transform 0.6s ease, filter 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: visible;
+    position: relative;
+}
+
+/* Bottom Border - initially visible */
+.hero-photo-inner::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%) scaleX(1) translateY(+10px);
+    height: 4px;
+    width: 80%;
+    background: rgba(0, 255, 166, 0.606);
+    transition: transform 0.3s ease, opacity 0.5s ease, background 0.5s ease;
+    box-shadow: 0 0 12px rgba(0, 255, 255, 0.469);
+    opacity: 1;
+}
+
+/* Image */
+.hero-photo-inner img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform 0.3s ease, filter 0.5s ease;
+    filter: drop-shadow(0 0 40px rgba(0, 255, 255, 0.6));
+}
+
+/* Hover Effects */
+.hero-photo:hover .hero-photo-inner {
+    transform: rotateY(0deg) rotateX(0deg) scale(1.07);
+}
+
+.hero-photo:hover .hero-photo-inner img {
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 60px rgba(255, 0, 200, 0.9));
+}
+
+.hero-photo:hover .hero-photo-inner::after {
+    transform: translateX(-50%) scaleX(0);
+    opacity: 0;
+}
+
+/* Fade In Animation */
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         /* === About Section === */
         #about {
             padding: 100px 0;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             position: relative;
             overflow: hidden;
             min-height: 100vh;
@@ -646,7 +767,6 @@
         #about .icon-box {
             width: 50px;
             height: 50px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             border-radius: 12px;
             display: flex;
             align-items: center;
@@ -697,64 +817,87 @@
             color: var(--accent);
         }
 
-        /* Skills Cloud */
-        #about .skills-cloud {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-top: 20px;
-        }
+/* Skills Cloud */
+#about .skills-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 20px;
+}
 
-        #about .skill-item {
-            padding: 8px 20px;
-            border-radius: 30px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
-            cursor: none;
-        }
+#about .skill-item {
+    padding: 8px 20px;
+    border-radius: 15px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: var(--transition);
+    position: relative;
+    overflow: visible; /* allow pseudo elements to show */
+    z-index: 1;
+    cursor: default;
+    background: rgba(255 255 255 / 0.1);
+    font-weight: bold;
+    letter-spacing: 1px;
+}
 
-        #about .skill-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.1);
-            z-index: -1;
-            border-radius: 30px;
-        }
+/* Base subtle glow behind - reduced size */
+#about .skill-item::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 110%;    /* reduced from 130% */
+    height: 110%;   /* reduced from 130% */
+    background: rgba(255 255 255 / 0.1);
+    border-radius: 50% 60% 70% 50% / 60% 60% 70% 70%;
+    transform: translate(-50%, -50%);
+    filter: blur(100px); /* slightly less blur */
+    z-index: -2;
+}
 
-        #about .skill-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
+/* Additional blob on top right - reduced size and offset */
+#about .skill-item::after {
+    content: '';
+    position: absolute;
+    top: 15%;         /* moved slightly down */
+    right: -10%;      /* moved slightly left */
+    width: 35%;       /* reduced from 50% */
+    height: 35%;      /* reduced from 50% */
+    background: rgba(255 255 255 / 0.15);
+    border-radius: 50% 50% 40% 40% / 50% 60% 50% 60%;
+    filter: blur(5px); /* slightly less blur */
+    z-index: -1;
+    transition: opacity 0.3s ease;
+}
+
+/* Hover effect - lift and subtle shadow */
+#about .skill-item:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.174);
+}
+
+/* On hover fade out the top right blob */
+#about .skill-item:hover::after {
+    opacity: 0;
+}
 
         /* Skill level indicators */
         #about .skill-item[data-level="expert"] {
-            background: linear-gradient(135deg, rgba(0, 188, 212, 0.2) 0%, rgba(0, 188, 212, 0.4) 100%);
             border: 1px solid var(--primary);
             color: var(--primary);
         }
 
         #about .skill-item[data-level="advanced"] {
-            background: linear-gradient(135deg, rgba(124, 77, 255, 0.2) 0%, rgba(124, 77, 255, 0.4) 100%);
             border: 1px solid var(--secondary);
             color: var(--secondary);
         }
 
         #about .skill-item[data-level="intermediate"] {
-            background: linear-gradient(135deg, rgba(255, 152, 0, 0.2) 0%, rgba(255, 152, 0, 0.4) 100%);
             border: 1px solid var(--accent);
             color: var(--accent);
         }
 
         #about .skill-item[data-level="beginner"] {
-            background: linear-gradient(135deg, rgba(204, 204, 204, 0.2) 0%, rgba(204, 204, 204, 0.4) 100%);
             border: 1px solid var(--gray);
             color: var(--gray);
         }
@@ -859,15 +1002,24 @@
   color: white;
   font-size: 2rem;
   padding: 0 10px;
-  cursor: pointer;
+  cursor: none;
   border-radius: 50%;
   z-index: 10;
   user-select: none;
-  transition: background 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .scroll-btn:hover {
-  background: rgba(255,255,255,0.3);
+    /* background: rgba(255,255,255,0.3); */
+    scale: 1.2;
+    transition: all 0.3s ease;
+    color: rgb(255, 0, 225);
+    animation: rotate360 0.2s linear 1;
+}
+
+@keyframes rotate360 {
+  0% { transform: translateY(-50%) rotate(0deg); }
+  100% { transform: translateY(-50%) rotate(360deg); }
 }
 
 #scrollLeft {
@@ -1061,7 +1213,6 @@
 
         /* === Contact Section === */
         #contact {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             position: relative;
             overflow: hidden;
         }
@@ -1151,9 +1302,8 @@
         }
 
         .contact-icon {
-            width: 50px;
+            width:  50px;
             height: 50px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
             border-radius: 12px;
             display: flex;
             align-items: center;
@@ -1180,28 +1330,37 @@
             color: var(--primary);
         }
 
-        .social-links {
-            display: flex;
-            gap: 15px;
-            margin-top: 30px;
-        }
+.social-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px 25px; /* row-gap column-gap */
+    margin-top: 30px;
+    max-width: 380px; /* Adjust based on how many icons per row */
+}
 
-        .social-link {
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.2rem;
-            transition: var(--transition);
-        }
+.social-link {
+    width:  40px;
+    height: 40px;
+    zoom: 1.5;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    transition: var(--transition);
+    flex: 0 0 auto; /* Prevents stretching */
+    transition: all 0.5s ease;
+}
 
         .social-link:hover {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
             transform: translateY(-5px);
+            background: white;
+            color: black;
+            box-shadow: 0 10px 20px rgba(0, 188, 212, 0.3);
+            animation: rotateAlternate 0.8s linear 1;
+            transition: all 0.3s ease;
         }
 
         .contact-form {
@@ -1269,8 +1428,7 @@
         }
 
         .submit-btn {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
+            /* color: white; */
             padding: 15px;
             border: none;
             border-radius: 8px;
@@ -1426,7 +1584,7 @@
                         <h3>Who Am I?</h3>
                     </div>
                     <div class="card-body">
-                        <p>I am a passionate <span class="highlight-text">Python Programmer</span> and <span class="highlight-text">AI enthusiast</span>, currently pursuing B.Tech CSE Honors at KL University. From the day I decided to rise above the challenges, I've been dedicated to mastering AI-driven technologies and building full-stack applications.</p>
+                        <p>I am a passionate <span class="highlight-text">Python Programmer</span> and <span class="highlight-text">ML enthusiast</span>, currently pursuing B.Tech CSE Honors at KL University. From the day I decided to rise above the challenges, I've been dedicated to mastering AI-driven technologies and building full-stack applications.</p>
                         <p>My journey has been shaped by persistence, learning, and a strong desire to innovate. I believe in the power of technology to transform lives and solve real-world problems.</p>
                         <p>When I'm not coding, I enjoy exploring new tech trends, collaborating on exciting projects, and continuously growing both personally and professionally.</p>
                     </div>
@@ -1437,25 +1595,44 @@
                         <div class="icon-box">
                             <i class="fas fa-code"></i>
                         </div>
-                        <h3>My <span class="highlight">Skills</span></h3>
+                        <h3>My <span class="highlight">Skill</span> Cloud</h3>
                     </div>
-                    <div class="skills-cloud">
-                        <span class="skill-item" data-level="expert">Python</span>
-                        <span class="skill-item" data-level="advanced">JavaScript</span>
-                        <span class="skill-item" data-level="intermediate">React</span>
-                        <span class="skill-item" data-level="advanced">Flask</span>
-                        <span class="skill-item" data-level="advanced">SQL</span>
-                        <span class="skill-item" data-level="expert">HTML5</span>
-                        <span class="skill-item" data-level="expert">CSS3</span>
-                        <span class="skill-item" data-level="intermediate">AI & ML</span>
-                        <span class="skill-item" data-level="intermediate">TensorFlow</span>
-                        <span class="skill-item" data-level="advanced">Git</span>
-                        <span class="skill-item" data-level="intermediate">Docker</span>
-                        <span class="skill-item" data-level="beginner">AWS</span>
-                        <span class="skill-item" data-level="advanced">Node.js</span>
-                        <span class="skill-item" data-level="intermediate">MongoDB</span>
-                        <span class="skill-item" data-level="intermediate">OpenCV</span>
-                    </div>
+<div class="skills-cloud">
+  <span class="skill-item" data-level="expert">Python</span>
+  <span class="skill-item" data-level="advanced">Flask</span>
+  <span class="skill-item" data-level="advanced">SQL</span>
+
+  <span class="skill-item" data-level="advanced">HTML</span>
+  <span class="skill-item" data-level="advanced">CSS</span>
+  <span class="skill-item" data-level="advanced">JavaScript</span>
+  <span class="skill-item" data-level="beginner">React</span>
+
+  <span class="skill-item" data-level="advanced">Java</span>
+  <span class="skill-item" data-level="intermediate">OOPS</span>
+  <span class="skill-item" data-level="intermediate">DSA</span>
+
+  <span class="skill-item" data-level="intermediate">Spring</span>
+
+  <span class="skill-item" data-level="intermediate">Git</span>
+
+  <span class="skill-item" data-level="intermediate">Figma</span>
+  <span class="skill-item" data-level="intermediate">Canvas</span>
+
+  <span class="skill-item" data-level="beginner">Machine Learning</span>
+
+  <span class="skill-item" data-level="intermediate">PostgreSQL</span>
+
+  <span class="skill-item" data-level="beginner">Postman</span>
+
+  <span class="skill-item" data-level="beginner">AWS</span>
+
+  <span class="skill-item" data-level="beginner">Automation</span>
+
+  <span class="skill-item" data-level="beginner">Django</span>
+  <span class="skill-item" data-level="intermediate">Jinja</span>
+
+  <span class="skill-item" data-level="intermediate">Full Stack</span>
+</div>
                 </div>
             </div>
         </div>
@@ -1505,8 +1682,8 @@
             <span class="tech-item">Jinja</span>
           </div>
           <div class="project-links">
-            <a href="#"><i class="fab fa-github"></i> View Code</a>
-            <a href="#"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+            <a href="#" class="noVisibility"><i class="fab fa-github"></i> View Code</a>
+            <a href="#" class="noVisibility"><i class="fas fa-external-link-alt"></i> Live Demo</a>
           </div>
         </div>
       </div>
@@ -1536,8 +1713,8 @@
             <span class="tech-item">Postman</span>
           </div>
           <div class="project-links">
-            <a href="#"><i class="fab fa-github"></i> View Code</a>
-            <a href="#"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+            <a href="#" class="noVisibility"><i class="fab fa-github"></i> View Code</a>
+            <a href="#" class="noVisibility"><i class="fas fa-external-link-alt"></i> Live Demo</a>
           </div>
         </div>
       </div>
@@ -1566,8 +1743,8 @@
             <span class="tech-item">JavaScript</span>
           </div>
           <div class="project-links">
-            <a href="#"><i class="fab fa-github"></i> View Code</a>
-            <a href="#"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+            <a href="#" class="noVisibility"><i class="fab fa-github"></i> View Code</a>
+            <a href="#" class="noVisibility"><i class="fas fa-external-link-alt"></i> Live Demo</a>
           </div>
         </div>
       </div>
@@ -1594,8 +1771,8 @@
             <span class="tech-item">JavaScript</span>
           </div>
           <div class="project-links">
-            <a href="#"><i class="fab fa-github"></i> View Code</a>
-            <a href="#"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+            <a href="#" class="noVisibility"><i class="fab fa-github"></i> View Code</a>
+            <a href="#" class="noVisibility"><i class="fas fa-external-link-alt"></i> Live Demo</a>
           </div>
         </div>
       </div>
@@ -1619,8 +1796,8 @@
             <span class="tech-item">Bootstrap</span>
           </div>
           <div class="project-links">
-            <a href="#"><i class="fab fa-github"></i> View Code</a>
-            <a href="#"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+            <a href="#" class="noVisibility"><i class="fab fa-github"></i> View Code</a>
+            <a href="#" class="noVisibility"><i class="fas fa-external-link-alt"></i> Live Demo</a>
           </div>
         </div>
       </div>
@@ -1647,8 +1824,8 @@
             <span class="tech-item">Canvas</span>
           </div>
           <div class="project-links">
-            <a href="#"><i class="fab fa-github"></i> View Code</a>
-            <a href="#"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+            <a href="#" class="noVisibility"><i class="fab fa-github"></i> View Code</a>
+            <a href="#" class="noVisibility"><i class="fas fa-external-link-alt"></i> Live Demo</a>
           </div>
         </div>
       </div>
@@ -1671,45 +1848,63 @@
                 <p>Feel free to reach out for collaborations or just a friendly hello</p>
             </div>
             <div class="contact-content">
-                <div class="contact-info">
-                    <h3>Contact Information</h3>
-                    <div class="contact-details">
-                        <div class="contact-item">
-                            <div class="contact-icon">
-                                <i class="fas fa-envelope"></i>
-                            </div>
-                            <div class="contact-text">
-                                <h4>Email</h4>
-                                <a href="mailto:srinivas@example.com">srinivas@example.com</a>
-                            </div>
-                        </div>
-                        <div class="contact-item">
-                            <div class="contact-icon">
-                                <i class="fas fa-phone"></i>
-                            </div>
-                            <div class="contact-text">
-                                <h4>Phone</h4>
-                                <a href="tel:+1234567890">+1 234 567 890</a>
-                            </div>
-                        </div>
-                        <div class="contact-item">
-                            <div class="contact-icon">
-                                <i class="fas fa-map-marker-alt"></i>
-                            </div>
-                            <div class="contact-text">
-                                <h4>Location</h4>
-                                <p>Vijayawada, India</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="social-links">
-                        <a href="#" class="social-link"><i class="fab fa-github"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-                    </div>
-                </div>
+<div class="contact-info">
+    <h3>Contact Information</h3>
+
+    <!-- Location with text -->
+    <div class="contact-details">
+        <div class="contact-item">
+            <div class="contact-icon">
+                <i class="fas fa-map-marker-alt"></i>
+            </div>
+            <div class="contact-text">
+                <h4>Location</h4>
+                <p>Vijayawada, India</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Social and Contact Icons -->
+    <div class="social-links">
+        <!-- Email -->
+        <a href="mailto:sunkush.koppolu@gmail.com" class="social-link" title="Email">
+            <i class="fas fa-envelope"></i>
+        </a>
+
+        <!-- Phone -->
+        <a href="tel:+919440040257" class="social-link" title="Call">
+            <i class="fas fa-phone"></i>
+        </a>
+
+        <!-- WhatsApp -->
+        <a href="https://api.whatsapp.com/send?phone=919440040257&text=Hi%20Srinivas" class="social-link" title="WhatsApp" target="_blank">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+
+        <!-- GitHub -->
+        <a href="https://github.com/Srinivas-Charan-Koppolu/" class="social-link" target="_blank" title="GitHub">
+            <i class="fab fa-github"></i>
+        </a>
+
+        <!-- LinkedIn -->
+        <a href="https://www.linkedin.com/in/srinivascharank/" class="social-link" target="_blank" title="LinkedIn">
+            <i class="fab fa-linkedin-in"></i>
+        </a>
+
+        <!-- Medium -->
+        <a href="https://medium.com/@SCK855-Thiru" class="social-link" target="_blank" title="Medium Blog">
+            <i class="fab fa-medium-m"></i>
+        </a>
+
+        <!-- Telegram -->
+        <a href="https://t.me/SCK855" class="social-link" target="_blank" title="Telegram">
+            <i class="fab fa-telegram-plane"></i>
+        </a>
+    </div>
+</div>
+
                 <div class="contact-form">
+                    <h3><span class="highlight">Mail</span> Me</h3>
                     <form id="contactForm">
                         <div class="form-group">
                             <input type="text" class="form-control" id="name" placeholder=" " required>
@@ -1746,7 +1941,7 @@
 
     <script>
         // My Images
-        const myImages = ["Srinu.jpg", "Srinu_Image.jpg"]
+        const myImages = ["Srinu_2.png"]
         var imageIndex = parseInt(Math.random() * 100) % myImages.length;
         const myImagesContainer = document.getElementById("My-Images");
 
@@ -1880,7 +2075,7 @@
         // Create particles
         function createParticles() {
             const particlesContainer = document.querySelector('.particles');
-            const particleCount = 30;
+            const particleCount = 50;
             
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
@@ -1896,8 +2091,8 @@
                 particle.style.top = `${Math.random() * 100}%`;
                 
                 // Random animation
-                const duration = Math.random() * 20 + 10;
-                particle.style.animation = `float ${duration}s ease-in-out infinite`;
+                const duration = Math.random() * 5 + 1;
+                particle.style.animation = `shine ${duration}s ease-in-out infinite`;
                 
                 // Random delay
                 particle.style.animationDelay = `${Math.random() * 10}s`;
