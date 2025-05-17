@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     
+    
+    <!-- <link rel="stylesheet" href="responsive.css"> -->
+     
     <style>
         /* === Base Variables === */
         :root {
@@ -2055,6 +2058,8 @@ body.viewer-open {
         </div>
     </footer>
 
+    <script src="./cursor.js"></script>
+
     <script>
         // My Images
         const myImages = ["Srinu_2.png", "Srinu_3.png"]
@@ -2088,35 +2093,6 @@ body.viewer-open {
         });
 
 
-        // Custom Cursor
-        const cursor = document.querySelector('.cursor');
-        const cursorFollower = document.querySelector('.cursor-follower');
-        
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-            
-            setTimeout(() => {
-                cursorFollower.style.left = e.clientX + 'px';
-                cursorFollower.style.top = e.clientY + 'px';
-            }, 20);
-        });
-        
-        // Cursor effects on interactive elements
-        const interactiveElements = document.querySelectorAll('a, button, .skill-item, .project-card, .form-control, .submit-btn, .hamburger');
-        
-        interactiveElements.forEach(element => {
-            element.addEventListener('mouseenter', () => {
-                cursor.classList.add('cursor-active');
-                cursorFollower.classList.add('cursor-follower-active');
-            });
-            
-            element.addEventListener('mouseleave', () => {
-                cursor.classList.remove('cursor-active');
-                cursorFollower.classList.remove('cursor-follower-active');
-            });
-        });
-        
         // Navbar scroll effect
         window.addEventListener('scroll', function() {
             const navbar = document.getElementById('navbar');

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reptile Skeleton Cursor</title>
+    <style>
+        body {
+            background-color: black;
+            margin: 0;
+            overflow: hidden;
+            cursor: none;
+        }
+
+        .segment {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: rgba(0, 255, 0, 0.7);
+            border-radius: 50%;
+            pointer-events: none;
+            transform-origin: center;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        const numSegments = 15; 
+        let segments = [];
+        let positions = Array(numSegments).fill({ x: window.innerWidth / 2, y: window.innerHeight / 2 });
+
+        for (let i = 0; i < numSegments; i++) {
+            let div = document.createElement("div");
+            div.classList.add("segment");
+            document.body.appendChild(div);
+            segments.push(div);
+        }
+
+        document.addEventListener("mousemove", (event) => {
+            positions.unshift({ x: event.clientX, y: event.clientY });
+            positions.pop();
+
+            segments.forEach((seg, index) => {
+                let prevPos = positions[index + 1] || positions[index];
+                seg.style.transform = `translate(${prevPos.x}px, ${prevPos.y}px)`;
+                seg.style.width = `${20 - index}px`; 
+                seg.style.height = `${20 - index}px`;
+            });
+        });
+    </script>
+</body>
+</html>
