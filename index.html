@@ -2949,11 +2949,12 @@ const scrollAmount = 300; // pixels per button click
 
 
 function updateCardsOpacity() {
+    return; // Disable opacity update for now
   const containerWidth = container.clientWidth;
   const scrollLeft = container.scrollLeft;
   const containerCenter = scrollLeft + containerWidth / 2;
 
-  const fadeArea = containerWidth * 0.06; // 10% fade width
+  const fadeArea = 0 * containerWidth * 0.01; // 10% fade width
 
   let closestCard = null;
   let minDistance = Infinity;
