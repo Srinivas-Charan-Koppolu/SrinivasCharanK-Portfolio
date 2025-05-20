@@ -1116,7 +1116,7 @@ body.viewer-open {
     color: white;
     border: none;
     font-size: 2rem;
-    cursor: none;
+    cursor: none !important;
 }
 
 @keyframes fadeIn {
@@ -3075,6 +3075,13 @@ document.getElementById('scrollRight').addEventListener('click', () => {
         card.setAttribute('title', 'Click to view in fullscreen');
     });
 
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && !viewer.classList.contains('hidden')) {
+        viewer.classList.add('hidden');
+        document.body.classList.remove('viewer-open');
+        viewerInner.innerHTML = '';
+    }
+});
 
     closeBtn.addEventListener('click', () => {
         viewer.classList.add('hidden');
